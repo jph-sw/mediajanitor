@@ -1,0 +1,80 @@
+version: 2
+
+project_name: mediajanitor
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: mediajanitor
+    main: ./cmd/mediajanitor
+    binary: mediajanitor
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+      - arm
+    goarm:
+      - "7"
+    ignore:
+      - goos: windows
+        goarch: arm
+      - goos: windows
+        goarch: arm64
+      - goos: darwin
+        goarch: arm
+
+archives:
+  - id: mediajanitor
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - README.md
+      - .env.example
+
+dockers:
+  - image_templates:
+      - "ghcr.io/jph-sw/mediajanitor:{{ .Tag }}-amd64"
+    use: buildx
+    build_flag_templates:
+      - "--platform=linux/amd64"
+    dockerfile: Dockerfile
+
+  - image_templates:
+      - "ghcr.io/jph-sw/mediajanitor:{{ .Tag }}-arm64"
+    use: buildx
+    goarch: arm64
+    build_flag_templates:
+      - "--platform=linux/arm64"
+    dockerfile: Dockerfile
+
+docker_manifests:
+  - name_template: "ghcr.io/jph-sw/mediajanitor:{{ .Tag }}"
+    image_templates:
+      - "ghcr.io/jph-sw/mediajanitor:{{ .Tag }}-amd64"
+      - "ghcr.io/jph-sw/mediajanitor:{{ .Tag }}-arm64"
+  - name_template: "ghcr.io/jph-sw/mediajanitor:latest"
+    image_templates:
+      - "ghcr.io/jph-sw/mediajanitor:{{ .Tag }}-amd64"
+      - "ghcr.io/jph-sw/mediajanitor:{{ .Tag }}-arm64"
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
