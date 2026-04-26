@@ -30,7 +30,7 @@ docker run --rm -v ~/.config/mediajanitor:/root/.config/mediajanitor \
   -v /downloads:/downloads \
   ghcr.io/jph-sw/mediajanitor:latest scan
 ```
-Note: most users will want the native binary. The image exists for all-container setups and is under 15 MB (scratch base).
+Note: most users will want the native binary. The image is a scratch-based image under 15 MB, built by goreleaser from the pre-compiled binary.
 
 ## Quickstart
 
