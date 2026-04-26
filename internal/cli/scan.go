@@ -151,11 +151,11 @@ func printScanSummary(r *scanner.ScanResult) {
 		}
 		pct := float64(stats.Bytes) / float64(r.TotalBytes)
 		indicator := CategoryIndicator(string(cat))
-		label := CategoryLabel(string(cat))
+		label := fmt.Sprintf("%-16s", CategoryLabel(string(cat)))
 		desc := CategoryDescription(string(cat))
 
 		style := CategoryStyle(string(cat))
-		fmt.Printf("  %s  %-20s  %8s  %6s  %s\n",
+		fmt.Printf("  %s  %s  %8s  %6s  %s\n",
 			style.Render(indicator),
 			style.Render(label),
 			format.Bytes(stats.Bytes),

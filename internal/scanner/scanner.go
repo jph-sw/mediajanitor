@@ -289,6 +289,12 @@ func buildTorrentMap(files []torrent.File) map[string]TorrentRef {
 	m := make(map[string]TorrentRef, len(files))
 	for _, f := range files {
 		m[f.Path] = TorrentRef{Name: f.Path}
+		// Resolve symlinks so cross-seed setups (where qBittorrent seeds via
+		// symlink directories pointing back to the real downloads path) are
+		// matched correctly when the walker encounters the real file path.
+		if real, err := filepath.EvalSymlinks(f.Path); err == nil && real != f.Path {
+			m[real] = TorrentRef{Name: f.Path}
+		}
 	}
 	return m
 }

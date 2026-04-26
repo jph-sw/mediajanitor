@@ -174,11 +174,11 @@ func printScanReport(db *store.Store, scan *store.ScanRow, f reportFlags) error 
 		}
 		pct := float64(totalBytes) / float64(scan.TotalBytes)
 		indicator := CategoryIndicator(cat)
-		label := CategoryLabel(cat)
+		label := fmt.Sprintf("%-16s", CategoryLabel(cat))
 		desc := CategoryDescription(cat)
 		style := CategoryStyle(cat)
 
-		fmt.Printf("  %s  %-20s  %8s  %6s  %s\n",
+		fmt.Printf("  %s  %s  %8s  %6s  %s\n",
 			style.Render(indicator),
 			style.Render(label),
 			format.Bytes(totalBytes),
