@@ -78,20 +78,18 @@ func (c *RadarrClient) ListMovieFiles(ctx context.Context) ([]MovieFile, error) 
 		return nil, fmt.Errorf("fetching movies for file annotation: %w", err)
 	}
 
-	titleByID := make(map[int]string, len(movies))
+	var all []MovieFile
 	for _, m := range movies {
-		titleByID[m.ID] = m.Title
+		var files []MovieFile
+		if err := c.get(ctx, fmt.Sprintf("/api/v3/moviefile?movieId=%d", m.ID), &files); err != nil {
+			return nil, fmt.Errorf("fetching movie files for movie %d (%s): %w", m.ID, m.Title, err)
+		}
+		for i := range files {
+			files[i].MovieTitle = m.Title
+		}
+		all = append(all, files...)
 	}
-
-	var files []MovieFile
-	if err := c.get(ctx, "/api/v3/moviefile", &files); err != nil {
-		return nil, err
-	}
-
-	for i := range files {
-		files[i].MovieTitle = titleByID[files[i].MovieID]
-	}
-	return files, nil
+	return all, nil
 }
 
 // radarrMovieFileResponse mirrors Radarr's extended movie file response shape.

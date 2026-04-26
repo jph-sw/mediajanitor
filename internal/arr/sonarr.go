@@ -71,25 +71,24 @@ func (c *SonarrClient) ListSeries(ctx context.Context) ([]Series, error) {
 }
 
 // ListEpisodeFiles returns all episode files across all series.
-// It fetches the series list first to annotate each file with its series title.
+// Sonarr's /api/v3/episodefile requires a seriesId parameter, so we fetch
+// one page per series and concatenate.
 func (c *SonarrClient) ListEpisodeFiles(ctx context.Context) ([]EpisodeFile, error) {
 	series, err := c.ListSeries(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("fetching series for file annotation: %w", err)
 	}
 
-	titleByID := make(map[int]string, len(series))
+	var all []EpisodeFile
 	for _, s := range series {
-		titleByID[s.ID] = s.Title
+		var files []EpisodeFile
+		if err := c.get(ctx, fmt.Sprintf("/api/v3/episodefile?seriesId=%d", s.ID), &files); err != nil {
+			return nil, fmt.Errorf("fetching episode files for series %d (%s): %w", s.ID, s.Title, err)
+		}
+		for i := range files {
+			files[i].SeriesTitle = s.Title
+		}
+		all = append(all, files...)
 	}
-
-	var files []EpisodeFile
-	if err := c.get(ctx, "/api/v3/episodefile", &files); err != nil {
-		return nil, err
-	}
-
-	for i := range files {
-		files[i].SeriesTitle = titleByID[files[i].SeriesID]
-	}
-	return files, nil
+	return all, nil
 }
