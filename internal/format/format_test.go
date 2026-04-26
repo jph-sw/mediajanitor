@@ -16,8 +16,8 @@ func TestBytes(t *testing.T) {
 		{1536, "1.5 KB"},
 		{1024 * 1024, "1.0 MB"},
 		{int64(1.5 * float64(MiB)), "1.5 MB"},
-		{15891392115, "14.8 GB"}, // int64(14.8 * GiB)
-		{1319413953331, "1.2 TB"}, // int64(1.2 * TiB)
+		{15891392115, "14.8 GB"},
+		{1319413953331, "1.2 TB"},
 	}
 	for _, tt := range tests {
 		got := Bytes(tt.in)

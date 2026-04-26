@@ -258,9 +258,9 @@ func (s *Scanner) Scan(ctx context.Context, downloadsRoot string, progress Progr
 func buildLibraryMaps(
 	episodes []arr.EpisodeFile,
 	movies []arr.MovieFile,
-) (map[uint64]LibraryRef, map[string]LibraryRef) {
-	inodes := make(map[uint64]LibraryRef)
-	paths := make(map[string]LibraryRef, len(episodes)+len(movies))
+) (inodes map[uint64]LibraryRef, paths map[string]LibraryRef) {
+	inodes = make(map[uint64]LibraryRef)
+	paths = make(map[string]LibraryRef, len(episodes)+len(movies))
 
 	for _, ef := range episodes {
 		ref := LibraryRef{Source: "sonarr", Title: ef.SeriesTitle}

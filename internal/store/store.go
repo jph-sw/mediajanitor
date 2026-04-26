@@ -261,7 +261,7 @@ func (s *Store) ListFiles(ctx context.Context, q FileQuery) ([]FileRow, error) {
 }
 
 // LogDeletion records a deletion in the deletion_log table.
-func (s *Store) LogDeletion(ctx context.Context, path string, sizeBytes int64, scanID int64, reason string) error {
+func (s *Store) LogDeletion(ctx context.Context, path string, sizeBytes, scanID int64, reason string) error {
 	_, err := s.db.ExecContext(ctx,
 		`INSERT INTO deletion_log (deleted_at, path, size_bytes, scan_id, reason) VALUES (?,?,?,?,?)`,
 		time.Now().UTC(), path, sizeBytes, scanID, reason)

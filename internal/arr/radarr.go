@@ -32,7 +32,7 @@ func NewRadarr(cfg RadarrConfig) *RadarrClient {
 }
 
 func (c *RadarrClient) get(ctx context.Context, path string, out any) error {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.base+path, nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.base+path, http.NoBody)
 	if err != nil {
 		return err
 	}

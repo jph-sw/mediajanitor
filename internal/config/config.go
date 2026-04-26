@@ -1,6 +1,7 @@
 package config
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -111,7 +112,7 @@ func (c *Config) Validate() error {
 		errs = append(errs, "radarr.api_key is required when radarr.url is set")
 	}
 	if len(errs) > 0 {
-		return fmt.Errorf("config validation failed:\n  " + strings.Join(errs, "\n  "))
+		return errors.New("config validation failed:\n  " + strings.Join(errs, "\n  "))
 	}
 	return nil
 }

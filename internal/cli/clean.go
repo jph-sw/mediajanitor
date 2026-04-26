@@ -145,7 +145,7 @@ func runClean(_ *cobra.Command, f cleanFlags) error {
 		fmt.Printf(Styles.Danger.Render("About to delete %s files totaling %s. This is irreversible. Continue? [y/N] "),
 			format.Comma(int64(len(paths))), format.Bytes(totalBytes))
 		var answer string
-		fmt.Scanln(&answer)
+		_, _ = fmt.Scanln(&answer)
 		if strings.ToLower(strings.TrimSpace(answer)) != "y" {
 			fmt.Println("Aborted.")
 			return nil
@@ -167,7 +167,7 @@ func runClean(_ *cobra.Command, f cleanFlags) error {
 		if f.interactive == "file" {
 			fmt.Printf("  Delete %s %s? [y/N] ", format.Bytes(p.size), p.path)
 			var answer string
-			fmt.Scanln(&answer)
+			_, _ = fmt.Scanln(&answer)
 			if strings.ToLower(strings.TrimSpace(answer)) != "y" {
 				continue
 			}

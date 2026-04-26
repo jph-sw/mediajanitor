@@ -58,7 +58,7 @@ func (c *qBittorrentClient) HealthCheck(ctx context.Context) error {
 	if err := c.login(ctx); err != nil {
 		return err
 	}
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.baseURL+"/api/v2/app/version", nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.baseURL+"/api/v2/app/version", http.NoBody)
 	if err != nil {
 		return err
 	}
