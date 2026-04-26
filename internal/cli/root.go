@@ -28,8 +28,8 @@ func New(version string) *cobra.Command {
 		Short: "Reconcile your downloads folder against Sonarr, Radarr, and qBittorrent",
 		Long: `mediajanitor walks a downloads directory and classifies every file as:
 
-  library+seeding  hardlinked to a *arr-tracked file AND held by an active torrent
-  library-only     hardlinked to a *arr-tracked file, not seeding
+  library+seeding  in *arr library AND held by an active torrent (hardlink match)
+  library-only     in *arr library, not seeding
   seeding-only     held by torrent client, not in any *arr library
   orphan           neither in a library nor seeding — safe to delete
 

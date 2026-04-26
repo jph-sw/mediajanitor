@@ -31,10 +31,10 @@ var Styles = struct {
 	Title   lipgloss.Style
 	Section lipgloss.Style
 }{
-	Good:    lipgloss.NewStyle().Foreground(lipgloss.Color("2")),  // green
-	Warning: lipgloss.NewStyle().Foreground(lipgloss.Color("3")),  // yellow
-	Danger:  lipgloss.NewStyle().Foreground(lipgloss.Color("1")),  // red
-	Dim:     lipgloss.NewStyle().Foreground(lipgloss.Color("8")),  // dark gray
+	Good:    lipgloss.NewStyle().Foreground(lipgloss.Color("2")), // green
+	Warning: lipgloss.NewStyle().Foreground(lipgloss.Color("3")), // yellow
+	Danger:  lipgloss.NewStyle().Foreground(lipgloss.Color("1")), // red
+	Dim:     lipgloss.NewStyle().Foreground(lipgloss.Color("8")), // dark gray
 	Bold:    lipgloss.NewStyle().Bold(true),
 
 	Header:    lipgloss.NewStyle().Foreground(lipgloss.Color("8")).Bold(true),

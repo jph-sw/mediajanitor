@@ -4,9 +4,9 @@ package scanner
 type Category string
 
 const (
-	// CategoryLibrarySeeding — hardlinked to a tracked *arr file AND held by an active torrent.
+	// CategoryLibrarySeeding — inode matches a tracked *arr file AND held by an active torrent.
 	CategoryLibrarySeeding Category = "library_seeding"
-	// CategoryLibraryOnly — hardlinked to a tracked *arr file, not seeding.
+	// CategoryLibraryOnly — inode matches a tracked *arr file, not seeding.
 	CategoryLibraryOnly Category = "library_only"
 	// CategorySeedingOnly — held by torrent client, not in any *arr library.
 	CategorySeedingOnly Category = "seeding_only"

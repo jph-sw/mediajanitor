@@ -22,8 +22,8 @@ type QBittorrentConfig struct {
 
 // qBittorrentClient implements Client for qBittorrent Web API v2.
 type qBittorrentClient struct {
-	cfg    QBittorrentConfig
-	http   *http.Client
+	cfg     QBittorrentConfig
+	http    *http.Client
 	baseURL string
 }
 
@@ -117,7 +117,7 @@ func (c *qBittorrentClient) ListTorrents(ctx context.Context) ([]Torrent, error)
 	}
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet,
-		c.baseURL+"/api/v2/torrents/info", nil)
+		c.baseURL+"/api/v2/torrents/info", http.NoBody)
 	if err != nil {
 		return nil, err
 	}
@@ -163,7 +163,7 @@ func (c *qBittorrentClient) ListFiles(ctx context.Context, torrentID string) ([]
 	}
 
 	u := c.baseURL + "/api/v2/torrents/files?hash=" + url.QueryEscape(torrentID)
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u, nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u, http.NoBody)
 	if err != nil {
 		return nil, err
 	}

@@ -78,7 +78,7 @@ func runClean(_ *cobra.Command, f cleanFlags) error {
 			return err
 		}
 	} else {
-		scan, err := db.LatestScan(nil)
+		scan, err := db.LatestScan(context.TODO())
 		if err != nil {
 			return fmt.Errorf("fetching scan: %w", err)
 		}
@@ -94,7 +94,7 @@ func runClean(_ *cobra.Command, f cleanFlags) error {
 			pathPrefix: f.pathPrefix,
 			limit:      0,
 		})
-		files, err := db.ListFiles(nil, q)
+		files, err := db.ListFiles(context.TODO(), q)
 		if err != nil {
 			return err
 		}

@@ -12,19 +12,19 @@ func TestClassify(t *testing.T) {
 		"/downloads/movies/Dune.mkv": {Source: "radarr", Title: "Dune"},
 	}
 	torrentPaths := map[string]TorrentRef{
-		"/downloads/movies/Dune.mkv":     {Name: "Dune"},
+		"/downloads/movies/Dune.mkv":      {Name: "Dune"},
 		"/downloads/seeding/somefile.rar": {Name: "some.torrent"},
 	}
 
 	c := NewClassifier(inodes, libPaths, torrentPaths)
 
 	tests := []struct {
-		name     string
-		path     string
-		inode    uint64
-		wantCat  Category
-		wantLib  bool
-		wantTor  bool
+		name    string
+		path    string
+		inode   uint64
+		wantCat Category
+		wantLib bool
+		wantTor bool
 	}{
 		{
 			name:    "library+seeding via inode+path",
@@ -45,7 +45,7 @@ func TestClassify(t *testing.T) {
 		{
 			name:    "library-only via path",
 			path:    "/downloads/movies/Dune.mkv",
-			inode:   999, // unknown inode
+			inode:   999,                    // unknown inode
 			wantCat: CategoryLibrarySeeding, // path matches torrent too
 			wantLib: true,
 			wantTor: true,

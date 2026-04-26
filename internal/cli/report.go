@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -68,9 +69,9 @@ func runReport(_ *cobra.Command, f reportFlags) error {
 
 	var scan *store.ScanRow
 	if f.scanID > 0 {
-		scan, err = db.ScanByID(nil, f.scanID)
+		scan, err = db.ScanByID(context.TODO(), f.scanID)
 	} else {
-		scan, err = db.LatestScan(nil)
+		scan, err = db.LatestScan(context.TODO())
 	}
 	if err != nil {
 		return fmt.Errorf("fetching scan: %w", err)
@@ -86,7 +87,7 @@ func runReport(_ *cobra.Command, f reportFlags) error {
 		return printScanReport(db, scan, f)
 	}
 
-	files, err := db.ListFiles(nil, q)
+	files, err := db.ListFiles(context.TODO(), q)
 	if err != nil {
 		return fmt.Errorf("querying files: %w", err)
 	}
@@ -160,7 +161,7 @@ func printScanReport(db *store.Store, scan *store.ScanRow, f reportFlags) error 
 
 	cats := []string{"library_seeding", "library_only", "seeding_only", "orphan"}
 	for _, cat := range cats {
-		catFiles, err := db.ListFiles(nil, store.FileQuery{ScanID: scan.ID, Category: cat, Limit: 0})
+		catFiles, err := db.ListFiles(context.TODO(), store.FileQuery{ScanID: scan.ID, Category: cat, Limit: 0})
 		if err != nil {
 			continue
 		}
